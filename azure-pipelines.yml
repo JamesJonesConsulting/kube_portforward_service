@@ -1,0 +1,41 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool: PodmanAgents
+variables:
+  - name: containerPath
+    value: sgan/containers/core
+  - group: DigitalOcean
+  - group: usvoters_pg
+resources:
+  containers:
+    - container: build
+      image: registry.gitlab.com/sgan/containers/core/jamjon3/doctl_container:latest
+      # image: registry.apps.southerngreensactionnetwork.org/sgan/containers/doctl_container:latest
+      endpoint: gl_registry
+      options: --entrypoint="" --dns 8.8.8.8
+      env:
+        DIGITALOCEAN_ACCESS_TOKEN: $(DIGITALOCEAN_ACCESS_TOKEN)
+        PG_DATABASE: $(PG_DATABASE)
+        PG_HOST: $(PG_HOST)
+        PG_PASSWORD: $(PG_PASSWORD)
+        PG_PORT: $(PG_PORT)
+stages:
+  - stage: DeployConstituentToolsContainer
+    displayName: Deploy Constituent Tools Container
+    jobs:
+      - deployment: DeployConstituentToolsContainer
+        displayName: Deploy Constituent Tools Container
+        environment: digitalocean
+        pool: PodmanAgents
+        container: build
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: .template.yml
