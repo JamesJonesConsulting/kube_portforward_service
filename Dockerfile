@@ -6,5 +6,5 @@ RUN doctl auth init
 RUN doctl kubernetes cluster kubeconfig save sgan-k8s
 EXPOSE 3306
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
+# RUN ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["docker-entrypoint.sh"]
