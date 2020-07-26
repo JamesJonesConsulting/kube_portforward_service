@@ -10,4 +10,5 @@ set -e
 
 #     exec gosu postgres "$@"
 # fi
-exec kubectl port-forward --address 0.0.0.0 "$@" svc/mariadb-prod 3306:3306; wait
+exec $(kubectl port-forward --address 0.0.0.0 "$@" svc/mariadb-prod 3306:3306)
+
