@@ -2,8 +2,8 @@ FROM registry.gitlab.com/sgan/containers/core/jamjon3/doctl_container:latest
 
 ARG DIGITALOCEAN_ACCESS_TOKEN
 ENV DIGITALOCEAN_ACCESS_TOKEN=${DIGITALOCEAN_ACCESS_TOKEN}
-doctl auth init
-doctl kubernetes cluster kubeconfig save sgan-k8s
+RUN doctl auth init
+RUN doctl kubernetes cluster kubeconfig save sgan-k8s
 EXPOSE 3306
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
