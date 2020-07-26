@@ -18,7 +18,7 @@ resources:
       image: registry.gitlab.com/sgan/containers/core/jamjon3/doctl_container:latest
       # image: registry.apps.southerngreensactionnetwork.org/sgan/containers/doctl_container:latest
       endpoint: gl_registry
-      options: --entrypoint="" --dns 8.8.8.8
+      options: --entrypoint="" --dns 192.168.1.1
       env:
         DIGITALOCEAN_ACCESS_TOKEN: $(DIGITALOCEAN_ACCESS_TOKEN)
         PG_DATABASE: $(PG_DATABASE)
@@ -26,11 +26,11 @@ resources:
         PG_PASSWORD: $(PG_PASSWORD)
         PG_PORT: $(PG_PORT)
 stages:
-  - stage: DeployConstituentToolsContainer
-    displayName: Deploy Constituent Tools Container
+  - stage: DeployKubePortForwardContainer
+    displayName: Deploy Kube Port Forward Container
     jobs:
-      - deployment: DeployConstituentToolsContainer
-        displayName: Deploy Constituent Tools Container
+      - deployment: DeployKubePortForwardContainer
+        displayName: Deploy Kube Port Forward Container
         environment: digitalocean
         pool: PodmanAgents
         container: build
