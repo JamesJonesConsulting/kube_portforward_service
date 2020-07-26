@@ -10,5 +10,6 @@ set -e
 
 #     exec gosu postgres "$@"
 # fi
-
+doctl auth init
+doctl kubernetes cluster kubeconfig save sgan-k8s
 exec kubectl port-forward svc/mariadb-prod 3306:3306 "$@"
